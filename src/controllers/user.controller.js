@@ -1,4 +1,4 @@
-import { User } from "../user.model.js";
+import { User } from "../models/user.model.js";
 
 const registerUser = async (req, res) => {
     try {
@@ -16,7 +16,7 @@ const registerUser = async (req, res) => {
 
         const newUser = await User.create({
             username,
-            email: email.toLowerCase(),wh
+            email: email.toLowerCase(),
             password,
         });
 
@@ -62,7 +62,28 @@ const loginUser = async (req, res) => {
     }
 };
 
+const logoutUser = async(req, res) =>{
+    try{
+        const {email} = req.body;
+        const user = await User.findOne({
+            email
+        }); 
+        if(!user) return res.status(404).json({
+            message : "user not found "
+        }); 
+
+        res.status(200).json({
+            message : "Logout Successful"
+        });
+    }catch (error) {
+        res.status(500).json({
+            message: "Internal Server erro" ,error
+        })
+    }
+}
+
 export {
     registerUser,
-    loginUser
+    loginUser,
+    logoutUser
 };
