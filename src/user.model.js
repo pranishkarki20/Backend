@@ -9,7 +9,7 @@ const userSchema = new Schema(
             lowercase:true,
             trim:true,
             minlength: 1,
-            maxlength: 5, 
+            maxlength: 100, 
         }, 
         password:{
             type:String,
