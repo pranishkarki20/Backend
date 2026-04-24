@@ -25,6 +25,18 @@ const creatPost = async (req, res) => {
         });
     }
 };
+
+const getpost = async (req , res) => {
+    try{
+        const getPosts = await Post.find();
+        res.status(200).json(getPosts)
+    }catch (error){
+        res.status(500).json({
+            message: "internal server error" ,error
+        })
+    }
+};
 export {
-    creatPost
+    creatPost,
+    getpost
 };
