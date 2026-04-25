@@ -3,7 +3,14 @@ import cors from "cors";
 
 const app = express(); 
 
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
+
+app.use(cors(corsOptions));
 app.use(express.json()); //expected it to be in json format 
  
 import userRouter from '../routes/user.route.js';
