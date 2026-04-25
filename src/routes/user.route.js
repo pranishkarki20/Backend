@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import { loginUser, logoutUser, registerUser } from '../controllers/user.controller.js';
+
  
 const router = Router() ; //Creating  router instance 
 //router.route means define  multiple Http  methods for the 
