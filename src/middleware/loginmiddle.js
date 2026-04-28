@@ -5,8 +5,15 @@ const validlogin = (req , res , next) =>{
             message : "All fields  required"
         })
     }
-    next();
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;;
+if(!emailRegex.test(email)){
+    return res.status(400).json({
+        message:"Invalid email format "
+    })
+}
+   next();
 };
+ 
 export{
     validlogin
 }
