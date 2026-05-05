@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import connectDB from "./config/database.js";
-import app from "./config/app.js"; // ← import your express app
+import app from "./config/app.js";
 
 dotenv.config({
     path: './.env'
@@ -9,18 +9,23 @@ dotenv.config({
 const startServer = async () => {
     try {
         await connectDB();
-        app.on("error", (error) => { 
-            console.log("ERROR", error);
-            throw error ; 
+
+        const PORT = process.env.PORT || 8000;
+
+        const server = app.listen(PORT, () => {
+            console.log(`Server is running on port: ${PORT}`);
         });
 
-        app.listen(process.env.PORT || 8000 , () => {
-            console.log(`Server is running on port : ${process.env.PORT}`);
-        })
+        // Handle server errors properly
+        server.on("error", (error) => {
+            console.error("Server Error:", error);
+            process.exit(1);
+        });
+
     } catch (error) {
         console.error("Server failed to start:", error.message);
         process.exit(1);
     }
 };
 
-startServer(); 
+startServer();
