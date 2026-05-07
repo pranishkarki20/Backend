@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import upload from "../Multer/multer.js";
+import upload from "../middleware/multer.js";
 const router = Router();
 
 router.post(

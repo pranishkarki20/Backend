@@ -1,119 +1,153 @@
 # Backend API
 
-A Node.js backend application providing RESTful APIs for user management and post operations. This project serves as a foundation for building full-stack applications with authentication and content management features.
+Node.js backend built with Express and MongoDB for user management, post management, and product file uploads.
 
 ## Features
 
-- **User Authentication**: Register, login, and logout functionality with secure password hashing
-- **Post Management**: Create, read, update, and delete posts
-- **Database Integration**: MongoDB with Mongoose ODM
-- **CORS Support**: Configured for frontend integration (localhost:5173)
-- **Environment Configuration**: Secure environment variable management
+- User registration, login, and logout flows
+- CRUD endpoints for posts
+- MongoDB integration with Mongoose
+- File uploads with Multer
+- CORS configured for `http://localhost:5173`
+- Environment-based configuration with `dotenv`
 
 ## Tech Stack
 
-- **Runtime**: Node.js with ES modules
-- **Framework**: Express.js
-- **Database**: MongoDB with Mongoose
-- **Authentication**: bcrypt for password hashing
-- **Security**: CORS, dotenv for environment variables
-- **Development**: Nodemon for hot reloading
+- Node.js
+- Express
+- MongoDB
+- Mongoose
+- bcrypt
+- JSON Web Token
+- Multer
+- Nodemon
 
 ## Prerequisites
 
-- Node.js (v14 or higher)
-- MongoDB (local installation or cloud service like MongoDB Atlas)
-- npm or yarn package manager
+- Node.js
+- MongoDB
+- npm
 
 ## Installation
 
 1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd backend
-   ```
+
+```bash
+git clone <repository-url>
+cd backend
+```
 
 2. Install dependencies:
-   ```bash
-   npm install
-   ```
 
-3. Create a `.env` file in the root directory with the following variables:
-   ```
-   PORT=8000
-   MONGODB_URI=mongodb://localhost:27017/your-database-name
-   ```
-   Replace `your-database-name` with your actual MongoDB database name.
+```bash
+npm install
+```
 
-4. Start MongoDB service (if running locally).
+3. Create a `.env` file in the project root:
 
-## Usage
+```env
+PORT=8000
+MONGODB_URI=mongodb://localhost:27017/your-database-name
+```
 
-### Development Mode
+4. Make sure MongoDB is running.
+
+## Running the Project
+
+Start in development mode:
+
 ```bash
 npm run dev
 ```
-This starts the server with nodemon for automatic restarts on file changes.
 
-### Production Mode
+Start in production mode:
+
 ```bash
 npm start
 ```
 
-The server will start on the port specified in your `.env` file (default: 8000).
+The server runs on the port defined in `.env`, or `8000` by default.
+
+## API Base Paths
+
+- Users: `/api/v1/users`
+- Posts: `/api/v1/posts`
+- Product uploads: `/api/v1/product`
 
 ## API Endpoints
 
-### User Routes (`/api/v1/users`)
+### User Routes
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/register` | Register a new user |
-| POST | `/login` | Authenticate user login |
-| POST | `/logout` | Logout user |
+| POST | `/api/v1/users/register` | Register a new user |
+| POST | `/api/v1/users/login` | Log in a user |
+| POST | `/api/v1/users/logout` | Log out a user |
 
-### Post Routes (`/api/v1/posts`)
+### Post Routes
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/create` | Create a new post |
-| GET | `/get` | Retrieve all posts |
-| PATCH | `/update/:id` | Update a specific post by ID |
-| DELETE | `/delete/:id` | Delete a specific post by ID |
+| POST | `/api/v1/posts/create` | Create a new post |
+| GET | `/api/v1/posts/get` | Get all posts |
+| PATCH | `/api/v1/posts/update/:id` | Update a post by ID |
+| DELETE | `/api/v1/posts/delete/:id` | Delete a post by ID |
+
+### Product Upload Route
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/v1/product/upload` | Upload one or more files using `multipart/form-data` |
+
+#### Upload Details
+
+- Middleware: `upload.any()`
+- Storage location: `uploads/`
+- Saved filename format: `<timestamp>-<originalname>`
+- Content type: `multipart/form-data`
+
+#### Example Request
+
+```bash
+curl -X POST http://localhost:8000/api/v1/product/upload \
+  -F "image=@C:/path/to/file.jpg"
+```
+
+#### Example Response
+
+```json
+{
+  "message": "Uploaded successfully"
+}
+```
+
+Note: the current route handler returns `file: req.file`, while `upload.any()` stores uploaded files on `req.files`.
 
 ## Project Structure
 
-```
+```text
 src/
-├── config/
-│   ├── app.js          # Express app configuration
-│   ├── database.js     # MongoDB connection
-│   └── constants.js    # Application constants
-├── controllers/
-│   ├── user.controller.js    # User-related logic
-│   └── post.controllers.js   # Post-related logic
-├── models/
-│   ├── user.model.js   # User data model
-│   └── post.model.js   # Post data model
-├── routes/
-│   ├── user.route.js   # User API routes
-│   └── post.route.js   # Post API routes
-└── index.js            # Application entry point
+|-- config/
+|   |-- app.js
+|   |-- constants.js
+|   `-- database.js
+|-- controllers/
+|   |-- post.contollers.js
+|   `-- user.controller.js
+|-- middleware/
+|   `-- multer.js
+|-- models/
+|   |-- post.model.js
+|   `-- user.model.js
+|-- routes/
+|   |-- post.route.js
+|   |-- productupload.js
+|   `-- user.route.js
+`-- index.js
 ```
 
-## Contributing
+## Notes
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- Uploaded files are written to the local `uploads/` directory.
+- CORS currently allows requests from `http://localhost:5173`.
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Built as part of a backend development journey
-- Inspired by modern Node.js best practices
