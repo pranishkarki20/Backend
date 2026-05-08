@@ -6,12 +6,8 @@ router.post(
   "/upload",
   upload.any(),
   (req, res) => {
-
-    console.log(req.file);
-
     res.json({
-      message: "Uploaded successfully",
-      file: req.file
+      fileurl: `/uploads/$(req.file.filename)`,
     });
 
   }
