@@ -4,7 +4,7 @@ import cors from "cors";
 const app = express(); 
 
 const corsOptions = {
-  origin: "https://backend-s083.onrender.com/api/v1/users/login",
+  origin: "https://react-tttb.vercel.app",
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"]
