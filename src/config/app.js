@@ -3,28 +3,12 @@ import cors from "cors";
 
 const app = express(); 
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://react-tttb.vercel.app"
-];
-
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-
-  next();
-});
-
+const corsOptions = {
+  origin: "https://backend-s083.onrender.com/api/v1/login",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
 
 app.use(cors(corsOptions));
 app.use(express.json()); //expected it to be in json format 
