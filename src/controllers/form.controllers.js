@@ -2,8 +2,9 @@ import  {form} from "../models/form.model.js"
 
 const createform = async (req , res ) => {
     try {
-        const {name , email , phonenumber} = req.body;
-        if (!name || !email || !phonenumber){
+        const { name, email, phone } = req.body;
+
+        if (!name || !email || !phone){
             return res.status(400).json({
                 message: "All Fields are required"
             });
@@ -12,7 +13,7 @@ const createform = async (req , res ) => {
         const createdForm = await form.create({
             name,
             email,
-            phone: phonenumber
+            phone,
         });
         return res.status(201).json({
             message : "Form Submitted Successfully",
