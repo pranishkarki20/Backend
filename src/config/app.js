@@ -4,7 +4,7 @@ import cors from "cors";
 const app = express(); 
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://backend-s083.onrender.com/api/v1/users/login",
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"]

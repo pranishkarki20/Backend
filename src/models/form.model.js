@@ -15,6 +15,11 @@ const formSchema = new Schema ({
     phone: {
         type: String, 
         required: true,
+    },
+    
+    description: {
+        type: String, 
+        lowercase: true ,
     }
 })
 export const form = mongoose.model('form' , formSchema)
